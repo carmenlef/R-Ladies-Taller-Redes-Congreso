@@ -72,6 +72,9 @@ igraph.options(vertex.label="", vertex.size=10, edge.lty=1)
 
 ## distintos tipos de gráficos
 
+# Fruchterman, T. M. J., & Reingold, E. M. (1991). Graph Drawing by Force-Directed Placement. Software: Practice and Experience, 21(11).
+
+
 lays<-c( "layout_randomly", "layout_with_kk" , 
          "layout_with_fr","layout_with_mds")
 
@@ -96,7 +99,7 @@ for (i in seeds) {
   plot(net, edge.arrow.mode=0, layout=layout_with_fr, main=nom) }
 
 dev.off()
-
+plot(net, edge.arrow.mode=0, layout=layout_with_fr) 
 ### Nos quedamos con Fruchterman-Reingold
 ### Un par de opciones adicionales
 
@@ -121,11 +124,11 @@ coal_colors [pacto == "Alianza"] <- "royalblue4"
 coal_colors[pacto == "Concertacion/NM"] <- "darkred"
 coal_colors [pacto == "Otro"] <- "yellow2"
 
-E(net)$width <- E(net)$weight
+
 plot(net, 
      vertex.color=coal_colors,
      edge.color="gray",
-     main="Primer mes",layout=l, edge.size==3)
+     main="Primer mes",layout=l)
 
 
 ###  DEFINIR SHAPE POR COALICION
@@ -220,7 +223,7 @@ V(net)$close<-closeness(net)
 
 ## generar subgrafico: hasta 3 vecinos desde el primer nodo
 net_1 <- induced.subgraph(net,
-                             neighborhood(net, 3, V(net)[2:1])[[1]])
+                             neighborhood(net, 2, V(net)[2:1])[[1]])
 
 
 plot(net_1)
@@ -284,7 +287,7 @@ plot( comm, net, vertex.shape=coal_shape,
       main="Primer mes", layout=l)
 
 
-
+comm
 plot( comm, net, vertex.shape=coal_shape, 
       col=coal_colors , vertex.size=coal_size ,
       mark.border=c("blue"),edge.lty=0,
@@ -316,3 +319,4 @@ legend("bottomright",
 
 
 
+######
