@@ -274,10 +274,12 @@ data.frame(tipo=c("walktrap", "leading_eigen"),
 ## comunidades: difieren por color
 ## coaliciones: difieron por color y forma
 ## 
+dev.off()
+
 
 
 plot( comm, net, vertex.shape=coal_shape, 
-      col=coal_colors , vertex.size=coal_size ,
+      col=coal_colors,vertex.size=coal_size ,
       mark.border=c("black"),
       main="Primer mes", layout=l)
 
@@ -287,6 +289,18 @@ plot( comm, net, vertex.shape=coal_shape,
       col=coal_colors , vertex.size=coal_size ,
       mark.border=c("blue"),edge.lty=0,
       main="Primer mes", layout=l)
+
+deg <- degree(net)
+
+### incorpora el tamaño como atributo, no hay que especificarlo
+V(net)$size <- deg
+
+
+plot( comm, net, vertex.shape=coal_shape, 
+      col=coal_colors ,
+      mark.border=c("blue"),edge.lty=0,
+      main="Primer mes", layout=l)
+
 
 
 legend("bottomright", 
