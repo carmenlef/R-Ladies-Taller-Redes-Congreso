@@ -24,12 +24,9 @@ library(tidyverse)
 
 ## 1) edge list
 
-load("netsponsor_2006_1mes.Rda")
-load("vertex_2006_1mes.Rda")
+load("netsponsor_2006_1mes.Rda")  ## base de datos como edge list
+load("vertex_2006_1mes.Rda") ## información sobre los vertices o nodos. 
 
-## verificar que la info de los nodos sea la misma que en net
-
-vertex_2006_1mes %>% dplyr::filter(id_nuevo %in% unique(c(netsponsor_2006_1mes$sponsor01,netsponsor_2006_1mes$sponsor02))) -> vertex_2006_1mes
 
 e_net <- graph_from_data_frame(netsponsor_2006_1mes, directed=FALSE, vertices=vertex_2006_1mes)
 E(e_net)$weight <- 1
@@ -70,9 +67,11 @@ plot(net, vertex.label="", vertex.size=10, edge.lty=0, layout=l)
 igraph.options(vertex.label="", vertex.size=10, edge.lty=1)
 
 
-## distintos tipos de gráficos
-
+## distintos tipos de gráficos:
+## Fuente: http://kateto.net/networks-r-igraph  (buena fuente para revisar)
+## 
 # Fruchterman, T. M. J., & Reingold, E. M. (1991). Graph Drawing by Force-Directed Placement. Software: Practice and Experience, 21(11).
+## 
 
 
 lays<-c( "layout_randomly", "layout_with_kk" , 
@@ -100,12 +99,18 @@ for (i in seeds) {
 
 dev.off()
 plot(net, edge.arrow.mode=0, layout=layout_with_fr) 
+
+
 ### Nos quedamos con Fruchterman-Reingold
+## lo fijamos:
+
+set.seed(1)
+l <- layout_with_fr(net)  
+
 ### Un par de opciones adicionales
 
 ###  colores
-set.seed(1)
-l <- layout_with_fr(net)
+
 
 plot(net, vertex.label="", layout=l)
 
@@ -204,14 +209,6 @@ average.path.length(net)
 
 clique.number(net)
 
-
-
-
-### DESCRIPTORES NODOS
-### 
-
-hist(degree(net), col="steelblue", xlim=c(0,50),
-     xlab="Nodes degree", ylab="Frequency", main="Histograma degree")
 
 
 ### una medida es closeness: cl(v)=1/sum(dist)
